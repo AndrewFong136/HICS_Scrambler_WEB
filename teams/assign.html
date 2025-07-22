@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Teams</title>
+    </head>
+    <body>
+        <h1>Assign Teams</h1>
+        <button onclick="fetchData()">Scramble</button>
+        <table id="teamsTable" border="1">
+            <thead>
+                <tr>
+                    <th rowspan="2">Members</th>
+                    <th colspan="4">Roles</th>
+                </tr>
+                <tr>
+                    <th>Situation Analyst</th>
+                    <th>Solutions</th>
+                    <th>Kabya's Lapdog</th>
+                    <th>Financials</th>
+                </tr>
+            </thead>
+            <tbody id="teamsList">
+            <!-- Teams will be populated here -->
+            </tbody>
+        </table>
+        <script src="script.js"></script>
+    </body>
+</html>
