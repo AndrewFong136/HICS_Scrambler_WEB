@@ -1,5 +1,6 @@
 from flask import Flask, jsonify
 from flask_cors import CORS
+import csv
 import subprocess
 
 import mysql.connector
@@ -11,6 +12,7 @@ currentPath = os.path.dirname(os.path.abspath(__file__))
 
 rootDir = os.path.dirname(currentPath)
 credentialsPath = os.path.join(rootDir, 'credentials')
+cacheDir = os.path.join(rootDir, 'cache')
 
 sys.path.append(credentialsPath)
 import mysqlcredentials as mc
@@ -34,15 +36,17 @@ def getData():
     cursor.close()
     connection.close()
 
+    cache_path = os.path.join(cacheDir, 'cached_data.csv')
+    with open(cache_path, mode='w', newline='', encoding='utf-8') as cache:
+        writer = csv.DictWriter(cache, fieldnames=output[0].keys())
+        writer.writerows(output)
+
     return jsonify(output)
 
 @app.route('/api/refresh')
 def refreshData():
     subprocess.run(["python", "createSQLdb.py"])
-
-@app.route('/scrambler')
-def scrambler():
-    
+    return jsonify({"status": "Database refresh initiated"}), 200
 
 if __name__ == '__main__':
     app.run(port=5000)

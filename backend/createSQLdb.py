@@ -58,7 +58,7 @@ def mySQLWrite(sqlData, table):
             Solutions,
             Kabyas_Lapdog,
             Financials ) 
-            VALUES ( %s,%s,%s,%s,%s)"""
+            VALUES (%s,%s,%s,%s,%s)"""
         
         cursor = connection.cursor()
         cursor.execute(sqlDropTable)
