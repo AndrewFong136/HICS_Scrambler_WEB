@@ -30,7 +30,9 @@ def getData():
     )
 
     cursor = connection.cursor(dictionary=True)
-    cursor.execute("SELECT * FROM initial")
+    cursor.execute("SELECT a.Members, a.Situation_Analyst, a.Solutions, a.Kabyas_Lapdog, a.Financials, b.past_match " \
+                   "FROM initial a, past_history b " \
+                   "WHERE a.id = b.id")
     output = cursor.fetchall()
 
     cursor.close()
@@ -47,6 +49,25 @@ def getData():
 def refreshData():
     subprocess.run(["python", "createSQLdb.py"])
     return jsonify({"status": "Database refresh initiated"}), 200
+
+@app.route('/api/scramble')
+def scrambleData():
+    connection = mysql.connector.connect(
+        user = mc.user,
+        password = mc.password,
+        host = mc.host,
+        database = mc.database
+    )
+
+    cursor = connection.cursor(dictionary=True)
+    cursor.execute("SELECT * FROM result")
+    output = cursor.fetchall()
+
+    cursor.close()
+    connection.close()
+
+    return jsonify(output)
+    
 
 if __name__ == '__main__':
     app.run(port=5000)
