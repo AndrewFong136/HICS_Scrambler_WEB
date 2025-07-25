@@ -1,0 +1,10 @@
+.tableBox {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+}
+
+table {
+    table-layout: auto;
+    width: 100%;
+}
