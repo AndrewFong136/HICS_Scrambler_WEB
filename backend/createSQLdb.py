@@ -65,8 +65,18 @@ def mySQLWrite(sqlData, table):
         cursor.execute(sqlCreateTable)
 
         for i in sqlData:
-            #print(i)
-            cursor.execute(sqlInsert, i)
+            trimmed = [i[0].strip(),] + list(i[1:])
+            cursor.execute(sqlInsert, trimmed)
+
+        cursor.execute("DROP TABLE IF EXISTS past_history")
+
+        cursor.execute("CREATE TABLE IF NOT EXISTS past_history (id INT NOT NULL, past_match VARCHAR(255))")
+
+        insertTable = "INSERT INTO past_history (id, past_match) VALUES "
+        
+        insertTable += ", ".join(f"({i + 1}, '')" for i in range(48))
+
+        cursor.execute(insertTable)
 
         connection.commit()
 

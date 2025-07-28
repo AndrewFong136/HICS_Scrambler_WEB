@@ -2,6 +2,7 @@ from flask import Flask, jsonify
 from flask_cors import CORS
 import csv
 import subprocess
+import cpp
 
 import mysql.connector
 
@@ -30,9 +31,10 @@ def getData():
     )
 
     cursor = connection.cursor(dictionary=True)
-    cursor.execute("SELECT a.Members, a.Situation_Analyst, a.Solutions, a.Kabyas_Lapdog, a.Financials, b.past_match " \
+    cursor.execute("SELECT a.*, b.past_match " \
                    "FROM initial a, past_history b " \
                    "WHERE a.id = b.id")
+        
     output = cursor.fetchall()
 
     cursor.close()
@@ -52,6 +54,8 @@ def refreshData():
 
 @app.route('/api/scramble')
 def scrambleData():
+    cpp.scramble(mc.host, mc.user, mc.password)
+
     connection = mysql.connector.connect(
         user = mc.user,
         password = mc.password,
@@ -67,7 +71,11 @@ def scrambleData():
     connection.close()
 
     return jsonify(output)
-    
+
+@app.route("/api/update_history")
+def updateDB():
+    cpp.updateDB(mc.host, mc.user, mc.password)       
+    return jsonify({"status": "Past match database updated"}), 200
 
 if __name__ == '__main__':
     app.run(port=5000)
