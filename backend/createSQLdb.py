@@ -68,15 +68,18 @@ def mySQLWrite(sqlData, table):
             trimmed = [i[0].strip(),] + list(i[1:])
             cursor.execute(sqlInsert, trimmed)
 
-        cursor.execute("DROP TABLE IF EXISTS past_history")
-
-        cursor.execute("CREATE TABLE IF NOT EXISTS past_history (id INT NOT NULL, past_match VARCHAR(255))")
-
-        insertTable = "INSERT INTO past_history (id, past_match) VALUES "
+        cursor.execute("""SELECT COUNT(*) 
+                       FROM information_schema.tables 
+                       WHERE table_schema = 'hics' 
+                       AND table_name = 'past_history'""")
         
-        insertTable += ", ".join(f"({i + 1}, '')" for i in range(48))
+        if cursor.fetchone()[0] == 0:
+            cursor.execute("CREATE TABLE IF NOT EXISTS past_history (id INT NOT NULL, past_match VARCHAR(255))")
+            
+            insertTable = "INSERT INTO past_history (id, past_match) VALUES "
+            insertTable += ", ".join(f"({i + 1}, '')" for i in range(48))
 
-        cursor.execute(insertTable)
+            cursor.execute(insertTable)
 
         connection.commit()
 
