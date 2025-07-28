@@ -82,6 +82,12 @@ function scrambleData() {
         .then(data => displayScrambledData(data))
 }
 
+function updateHistory() {
+    fetch('http://localhost:5000/api/update_history')
+        .then(fetchData())
+
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     refreshData();
 });
