@@ -14,27 +14,27 @@
             <table id="teamsTable" border="1">
                 <thead>
                     <tr>
-                        <th rowspan="2">Members</th>
+                        <th rowspan="2"><button id="Members">Members</button></th>
                         <th colspan="4">Preferences</th>
-                        <th rowspan="2">Past Matches</th>
+                        <th rowspan="2"><button id="past_match">Past Matches</button></th>
                     </tr>
                     <tr>
-                        <th>Situation Analyst</th>
-                        <th>Solutions</th>
-                        <th>Kabya's Lapdog</th>
-                        <th>Financials</th>
+                        <th><button id="Situation_Analyst">Situation Analyst</button></th>
+                        <th><button id="Solutions">Solutions</button></th>
+                        <th><button id="Kabyas_Lapdog">Kabya's Lapdog</button></th>
+                        <th><button id="Financials">Financials</button></th>
                     </tr>
                 </thead>
                 <tbody id="teamsList">
                 <!-- Teams will be populated here -->
                 </tbody>
             </table>
-            <table border="1">
+            <table id="scrambledTeamsTable" border="1">
                 <thead>
                     <tr>
-                        <th>Team</th>
-                        <th>Members</th>
-                        <th>Roles</th>
+                        <th><button id="Team">Team</button></th>
+                        <th><button id="Members">Members</button></th>
+                        <th><button id="Roles">Roles</button></th>
                     </tr>
                 </thead>
                 <tbody id="scrambledTeams">
@@ -43,5 +43,6 @@
             </table>
         </div>
         <script src="script.js"></script>
+        <script src="sort.js"></script>
     </body>
 </html>
