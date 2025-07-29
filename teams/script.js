@@ -1,4 +1,7 @@
-const loading = document.getElementById('loading');
+const thbutton = document.querySelectorAll("th button");
+
+let fetchedData = [];
+let fetchedScrambledData = [];
 
 function displayData(rows) {
     const teamsList = document.getElementById('teamsList');
@@ -68,7 +71,10 @@ function displayScrambledData(rows) {
 function fetchData() {
     fetch('http://localhost:5000/api/data')
         .then(response => response.json())
-        .then(data => displayData(data))
+        .then(data => {
+            fetchedData = data;
+            displayData(data);
+        })
 }
 
 function refreshData() {
@@ -79,7 +85,10 @@ function refreshData() {
 function scrambleData() {
     fetch('http://localhost:5000/api/scramble')
         .then(response => response.json())
-        .then(data => displayScrambledData(data))
+        .then(data => {
+            fetchedScrambledData = data;
+            displayScrambledData(data);
+        })
 }
 
 function updateHistory() {
@@ -90,6 +99,37 @@ function updateHistory() {
 
 document.addEventListener('DOMContentLoaded', () => {
     refreshData();
+    
+    [...thbutton].map((button) => {
+
+        button.addEventListener("click", (e) => {
+
+            const tableId = e.target.closest("table").id;
+           
+            const direction = e.target.getAttribute("direction") || "asc";
+            const newDirection = direction == "asc" ? "desc" : "asc";
+
+            if (tableId == "teamsTable") {
+                sortData(fetchedData, e.target.id, direction, displayData);
+            } else if (tableId == "scrambledTeamsTable") {
+                sortData(fetchedScrambledData, e.target.id, newDirection, displayScrambledData);
+            }
+
+            e.target.setAttribute("direction", newDirection);
+        });
+
+        button.addEventListener("mouseenter", () => {
+            const img = document.createElement("img");
+            img.src = "ui/updown_arrow.png";
+            img.style.width = "10px";
+            button.appendChild(img);
+        })
+
+        button.addEventListener("mouseleave", () => {
+            const img = document.querySelector("img");
+            button.removeChild(img);
+        })
+    });
 });
 
 setInterval(refreshData, 300000)

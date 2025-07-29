@@ -8,3 +8,26 @@ table {
     table-layout: auto;
     width: 100%;
 }
+
+td {
+    padding: 4px;
+}
+
+th button {
+    background-color: white;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+    width: 100%;
+    border: none;
+    font: inherit;
+}
+
+th button[direction="asc"]::after{
+     
+}
+
+th button[direction="desc"]::after{}
